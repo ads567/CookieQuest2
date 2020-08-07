@@ -17,7 +17,10 @@ public class CookiesBehavior : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if(holder != null)
+        {
+            transform.position = holder.transform.position;
+        }
     }
 
     void BreakCookies()
@@ -33,5 +36,15 @@ public class CookiesBehavior : MonoBehaviour
     {
         Debug.Log("Mouse click on cookies detected");
         BreakCookies();
+    }
+
+    public void SetHolder(GameObject newHolder)
+    {
+        holder = newHolder;
+    }
+
+    public void ResetHolder()
+    {
+        holder = null;
     }
 }
