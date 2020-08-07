@@ -6,6 +6,7 @@ public class CookiesBehavior : MonoBehaviour
 {
 
     public bool broken;
+    public GameObject holder;
 
     // Start is called before the first frame update
     void Start()
