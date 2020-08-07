@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - Cookies
+  - Control
+  - Hand
+  - Spawner
   layers:
   - Default
   - TransparentFX

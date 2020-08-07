@@ -1,12 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.XR;
 
 public class SpawnerBehavior : MonoBehaviour
 {
     public float minSpawnTime;
     public float maxSpawnTime;
     public GameObject hand;
+    public Control control;
 
     // Start is called before the first frame update
     void Start()
@@ -32,19 +34,19 @@ public class SpawnerBehavior : MonoBehaviour
         switch (side)
         {
             case 0:
-                Instantiate(hand, new Vector3(-10, Random.Range(-6, 7), 0), transform.rotation);
+                control.objects.Add(Instantiate(hand, new Vector3(-10, Random.Range(-6, 7), 0), transform.rotation));
                 break;
 
             case 1:
-                Instantiate(hand, new Vector3(Random.Range(-4, 5), 12, 0), transform.rotation);
+                control.objects.Add(Instantiate(hand, new Vector3(Random.Range(-4, 5), 12, 0), transform.rotation));
                 break;
 
             case 2:
-                Instantiate(hand, new Vector3(10, Random.Range(-6, 7), 0), transform.rotation);
+                control.objects.Add(Instantiate(hand, new Vector3(10, Random.Range(-6, 7), 0), transform.rotation));
                 break;
 
             case 3:
-                Instantiate(hand, new Vector3(Random.Range(-4, 4), -12, 0), transform.rotation);
+                control.objects.Add(Instantiate(hand, new Vector3(Random.Range(-4, 4), -12, 0), transform.rotation));
                 break;
         }
         StartCoroutine(Spawn());

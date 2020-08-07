@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CookiesBehavior : MonoBehaviour
 {
-
+    public Sprite brokenCookies;
     public bool broken;
     public GameObject holder;
 
@@ -24,7 +24,7 @@ public class CookiesBehavior : MonoBehaviour
         }
     }
 
-    void BreakCookies()
+    public void BreakCookies()
         /**
          * This function is called when the plate is clicked on. It ends the game. 
          */
@@ -32,18 +32,10 @@ public class CookiesBehavior : MonoBehaviour
         if(broken == false)
         {
             broken = true;
+            gameObject.GetComponent<SpriteRenderer>().sprite = brokenCookies;
         }
         // Randomly rotate the shattered plate.
         transform.Rotate(Vector3.forward * Random.Range(15.0f, 180.0f));
-    }
-
-    private void OnMouseDown()
-        /**
-         * Function that checks if the cookies have been clicked on. Calls BreakCookies()
-         */
-    {
-        Debug.Log("Mouse click on cookies detected");
-        BreakCookies();
     }
 
     public void SetHolder(GameObject newHolder)

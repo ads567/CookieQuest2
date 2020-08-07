@@ -22,12 +22,16 @@ public class HandBehavior : MonoBehaviour
     GameObject cookies;
     CookiesBehavior cb;
 
+    // The control object that tracks the score
+    public Control control;
+
 
     // Start is called before the first frame update
     void Start()
     {
         // Set the cookies variable and its behavior script, and set initial rotation.
         cookies = GameObject.FindWithTag("Cookies");
+        control = GameObject.FindWithTag("Control").GetComponent<Control>();
         cb = cookies.gameObject.GetComponent<CookiesBehavior>();
         transform.rotation = Quaternion.LookRotation(Vector3.forward, cookies.transform.position - transform.position);
         spawn = transform.position;
@@ -36,30 +40,47 @@ public class HandBehavior : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // Make sure the cookies exist, then check if this is hoding them. If it is, move back towards the spawn. If it isn't, move towards the cookies. 
-        if (cookies != null)
+        if (cb.broken == false)
         {
-            if (cb.holder == gameObject)
+            // Make sure the cookies exist, then check if this is hoding them. If it is, move back towards the spawn. If it isn't, move towards the cookies. 
+            if (cookies != null)
             {
-                transform.position = Vector3.MoveTowards(transform.position, spawn, maxVelocity);
-                Debug.Log(transform.up);
-            }
-            else
-            {
-                transform.position = Vector3.MoveTowards(transform.position, cookies.transform.position, maxVelocity);
-            }
+                if (cb.holder == gameObject)
+                {
+                    transform.position = Vector3.MoveTowards(transform.position, spawn, maxVelocity);
+                    Debug.Log(transform.up);
+                }
+                else
+                {
+                    transform.position = Vector3.MoveTowards(transform.position, cookies.transform.position, maxVelocity);
+                }
 
-            // If you are not holding the cookies, rotate towards them
-            if (cb.holder != gameObject)
-            {
-                transform.rotation = Quaternion.RotateTowards(pivot.transform.rotation, Quaternion.LookRotation(Vector3.forward, cookies.transform.position - pivot.transform.position), 0.1f);
-            }
+                // If you are not holding the cookies, rotate towards them
+                if (cb.holder != gameObject)
+                {
+                    transform.rotation = Quaternion.RotateTowards(pivot.transform.rotation, Quaternion.LookRotation(Vector3.forward, cookies.transform.position - pivot.transform.position), 0.1f);
+                }
 
-            // If we are close enough to the cookies and they don't have a holder, become the holder. 
-            if (Vector3.Distance(transform.position, cookies.transform.position) < 0.1f & cb.holder == null)
-            {
-                cb.SetHolder(gameObject);
+                // If we are close enough to the cookies and they don't have a holder, become the holder. 
+                if (Vector3.Distance(transform.position, cookies.transform.position) < 0.1f & cb.holder == null)
+                {
+                    cb.SetHolder(gameObject);
+                }
             }
         }
+    }
+
+    public void SlapHand()
+        /**
+         * Called when the hand is clicked. 
+         */
+    {
+        control.score += 1;
+        control.objects.Remove(gameObject);
+        if(cb.holder == gameObject)
+        {
+            cb.ResetHolder();
+        }
+        Destroy(gameObject);
     }
 }
