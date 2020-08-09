@@ -48,7 +48,6 @@ public class HandBehavior : MonoBehaviour
                 if (cb.holder == gameObject)
                 {
                     transform.position = Vector3.MoveTowards(transform.position, spawn, maxVelocity);
-                    Debug.Log(transform.up);
                 }
                 else
                 {

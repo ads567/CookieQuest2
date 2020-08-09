@@ -152,6 +152,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   score: 0
   objects: []
+  cookies: {fileID: 1776380720}
 --- !u!4 &7771412
 Transform:
   m_ObjectHideFlags: 0

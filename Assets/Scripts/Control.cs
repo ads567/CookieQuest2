@@ -10,6 +10,7 @@ public class Control : MonoBehaviour
 {
     public int score;
     public List<GameObject> objects;
+    public Collider2D cookies;
 
     // Start is called before the first frame update
     void Start()
@@ -25,7 +26,49 @@ public class Control : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             RaycastHit2D[] hit = Physics2D.RaycastAll(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
-            
+            List<Collider2D> colliders = new List<Collider2D>();
+            CookiesBehavior cb = cookies.GetComponent<CookiesBehavior>();
+            int highestIndex = 0;
+
+            foreach (RaycastHit2D h in hit)
+            {
+                colliders.Add(h.collider);
+                if(colliders.IndexOf(h.collider) > highestIndex)
+                {
+                    highestIndex = colliders.IndexOf(h.collider);
+                }
+            }
+
+            if (colliders.Contains(cookies) & colliders.Count == 1)
+            {
+                cb.BreakCookies();
+            }
+            else if (cb.holder != null)
+            {
+                if (colliders.Contains(cb.holder.GetComponent<Collider2D>()))
+                {
+                    cb.holder.GetComponent<HandBehavior>().SlapHand();
+                }
+            }
+            else
+            {
+                if(colliders.Count > 0)
+                {
+                    colliders[highestIndex].gameObject.GetComponent<HandBehavior>().SlapHand();
+                }
+            }
+
+
+
+
+
+
+
+
+
+
+
+            /*
             // Iterate through each object under the mouse
             foreach(RaycastHit2D h in hit)
             {
@@ -69,6 +112,7 @@ public class Control : MonoBehaviour
                     }
                 }
             }
+            */
         }
     }
 }

@@ -12,6 +12,7 @@ public class CookiesBehavior : MonoBehaviour
     void Start()
     {
         broken = false;
+        holder = null;
     }
 
     // Update is called once per frame
