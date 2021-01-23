@@ -22,7 +22,7 @@ public class SpawnerBehavior : MonoBehaviour
         
     }
 
-    IEnumerator Spawn()
+    public IEnumerator Spawn()
         /**
          * Coroutine for spawning hands. 
          */

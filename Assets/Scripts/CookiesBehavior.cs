@@ -5,6 +5,7 @@ using UnityEngine;
 public class CookiesBehavior : MonoBehaviour
 {
     public Sprite brokenCookies;
+    public Sprite cookies;
     public bool broken;
     public GameObject holder;
 
@@ -34,6 +35,7 @@ public class CookiesBehavior : MonoBehaviour
         {
             broken = true;
             gameObject.GetComponent<SpriteRenderer>().sprite = brokenCookies;
+            ResetHolder();
         }
         // Randomly rotate the shattered plate.
         transform.Rotate(Vector3.forward * Random.Range(15.0f, 180.0f));
@@ -53,5 +55,15 @@ public class CookiesBehavior : MonoBehaviour
          */
     {
         holder = null;
+    }
+
+    public void ResetCookies()
+        /**
+         * Reset the holder and the sprite for starting a new game
+         */
+    {
+        broken = false;
+        ResetHolder();
+        gameObject.GetComponent<SpriteRenderer>().sprite = cookies;
     }
 }

@@ -75,6 +75,7 @@ public class HandBehavior : MonoBehaviour
          */
     {
         control.score += 1;
+        control.SetScore();
         control.objects.Remove(gameObject);
         if(cb.holder == gameObject)
         {

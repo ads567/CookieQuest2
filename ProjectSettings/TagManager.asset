@@ -8,6 +8,7 @@ TagManager:
   - Control
   - Hand
   - Spawner
+  - GUI
   layers:
   - Default
   - TransparentFX

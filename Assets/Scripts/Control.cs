@@ -11,13 +11,73 @@ public class Control : MonoBehaviour
     public int score;
     public List<GameObject> objects;
     public Collider2D cookies;
+    public GameObject spawner;
+    public GUI gui;
 
     // Start is called before the first frame update
     void Start()
     {
+        spawner = GameObject.FindWithTag("Spawner");
+        gui = GameObject.FindWithTag("GUI").GetComponent<GUI>();
         objects = new List<GameObject>();
         objects.Add(GameObject.FindWithTag("Cookies"));
         score = 0;
+        SetScore();
+
+        // Disable all the game objects
+        Pause();
+    }
+
+    public void Pause()
+    {
+        // Pause the hand spawning
+        spawner.SetActive(false);
+
+        // Pause all of the spawned hands and the cookies
+        foreach (GameObject obj in objects)
+        {
+            obj.SetActive(false);
+        }
+
+        // Hide the score text
+        gui.score.gameObject.SetActive(false);
+
+        // Show the pause menu
+        gui.gameObject.SetActive(true);
+    }
+
+    public void NewGame()
+    {
+        // Reset the score, the cookies, and the hands
+        score = 0;
+        cookies.transform.position = new Vector2(0, 0);
+        cookies.GetComponent<CookiesBehavior>().ResetCookies();
+        Resume();
+    }
+
+    public void Resume()
+    {
+        // Resume the hand spawning
+        spawner.SetActive(true);
+        spawner.GetComponent<SpawnerBehavior>().StartCoroutine(spawner.GetComponent<SpawnerBehavior>().Spawn());
+
+        // Resume all of the spawned hands and the cookies
+        foreach (GameObject obj in objects)
+        {
+            obj.SetActive(true);
+        }
+
+        // Show the score text
+        gui.score.gameObject.SetActive(true);
+
+        // Hide the pause menu
+        gui.gameObject.SetActive(false);
+
+    }
+
+    public void SetScore()
+    {
+        gui.score.text = "Score: " + score;
     }
 
     // Update is called once per frame
@@ -26,7 +86,14 @@ public class Control : MonoBehaviour
 
         /*
          * Because of the unpredictable nature of overlapping colliders on the z axis, hit detection must be done carefully and deliberately. 
+         * Also check for game pause here.
          */
+
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            Pause();
+        }
+
 
         // Check for a mouse click
         if (Input.GetMouseButtonDown(0))
